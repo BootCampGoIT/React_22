@@ -28,21 +28,22 @@ class Products extends Component {
             : this.state.products
     }
 
+
     render() {
         const { products, filter } = this.state;
         return (
             <>
-                <ProductForm addProduct={this.addProduct} />
-                <Filter getFilterValue={this.getFilterValue} value={filter} />
+                {/* <ProductForm addProduct={this.addProduct} />
+                <Filter getFilterValue={this.getFilterValue} value={filter} /> */}
                 {/* {
                     filter
                     ? <List products={products.filter(product => product.title.toLowerCase().includes(this.state.filter.toLowerCase()))} addToCart={this.addToCart} />
                     : <List products={products} addToCart={this.addToCart} />
                 } */}
-                <List products={this.getFilteredData()} addToCart={this.addToCart} />
+                {/* <List products={this.getFilteredData()} addToCart={this.addToCart} /> */}
+
                 {/* <HomeWork /> */}
-
-
+        
             </>
         );
     }
