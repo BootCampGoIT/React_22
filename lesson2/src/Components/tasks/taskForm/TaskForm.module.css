@@ -1,0 +1,48 @@
+.form {
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    height: 50px;
+    margin: 5px;
+}
+.formLabel {
+    font-weight: 700;
+    margin-right: 5px;
+    cursor: pointer;
+    line-height: 20px;
+    text-transform: uppercase;
+    color: cornflowerblue;
+}
+
+.formInput {
+    border: none;
+    outline: none;
+    line-height: 30px;
+    cursor: pointer;
+    margin-right: 5px;
+    height: 20px;
+    
+
+}
+
+.formButton {
+    font-weight: 700;
+    margin-right: 5px;
+    height: 20px;
+    width: 100px;
+    border: none;
+    background-color: cornflowerblue;
+    border-radius: 5px;
+    color: white;
+    text-transform: uppercase;
+    outline: none;
+
+}
+
+.checkBoxWrapper {
+    display: flex;
+    justify-content: center;
+}
+

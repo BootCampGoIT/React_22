@@ -1,4 +1,5 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import css from './TaskListItem.module.css';
 
 
 
@@ -44,9 +45,9 @@ class TaskListItem extends Component {
     render() {
         const { task, important, status, isEditInputVisible } = this.state
         return (
-            <li>
+            <li className={css.item}>
                 {!isEditInputVisible
-                    ? <p>{task}</p>
+                    ? <p className={css.taskName}><b>Task: </b>{task}</p>
                     : <input type="text" value={task} onChange={this.editTask} />}
                 <div className="buttonGroup">
                     <button type="button" onClick={this.handleTaskContent}>{isEditInputVisible ? "Save" : "Edit"}</button>
@@ -54,7 +55,7 @@ class TaskListItem extends Component {
                     <button type="button">Delete</button>
                 </div>
 
-                <div className="radio">
+                <div className={css.radio}>
                     <label>Planning:
                         <input type="radio" checked={status === "planning" ? true : false} name="planning" onChange={this.checkStatus} />
                     </label>
