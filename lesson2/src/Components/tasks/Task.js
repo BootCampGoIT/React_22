@@ -2,11 +2,7 @@ import React, { Component } from 'react'
 import TaskForm from './taskForm/TaskForm';
 import axios from 'axios';
 import TaskList from './taskList/TaskList';
-import css from './Task.module.css';
-
-
-// const array1 = [{ name: "Alex", status: "student" }, { name: "Nikita", status: "teacher" }];
-// const array2 = [{ name: "Alex", status: "student" }, { name: "Nikita", status: "student" }];
+import API from '../../services/api';
 
 const isSimilar = (array1, array2) => {
     const diffResult = [];
@@ -35,93 +31,86 @@ const isSimilar = (array1, array2) => {
     } else return true
 }
 
-
-
 class Task extends Component {
     state = {
         tasks: [],
         isLoading: false,
     }
 
-    // componentWillMount() {
-    //     console.log("CWM")
-    //     localStorage.setItem("user", JSON.stringify({ user: "", token: "" }))
-    // }
+    async componentDidMount() {
+        this.setState({ isLoading: true });
+        const tasks = await API.getTasks();
+        this.setState({ tasks: tasks ? tasks : [], isLoading: false })
 
-    componentDidMount() {
-        const localTasks = JSON.parse(localStorage.getItem("tasks"));
-        this.setState({ tasks: localTasks ? localTasks : [] })
+        // const localTasks = JSON.parse(localStorage.getItem("tasks"));
 
-        // console.log("componentDidMount")
-        // this.setState({ isLoading: true });
-        // axios.get(`https://react-bc22.firebaseio.com/tasks.json`)
-        //     .then(response => {
-        //         const tasks = [];
-        //         if (response.data) {
-        //             const keys = Object.keys(response.data);
-        //             for (const key of keys) {
-        //                 tasks.push({ id: key, ...response.data[key] })
-        //             }
-        //             return tasks
-        //         } else return tasks
-        //     })
-        //     .then(tasks => {
-        //         this.setState({ tasks });
-        //         localStorage.setItem("tasks", JSON.stringify(tasks));
-        //     })
-        //     .catch(error => console.log('error', error))
-        //     .finally(() => this.setState({ isLoading: false }))
     }
-
-
-
-    // async shouldComponentUpdate(nextProps, nextState) {
-    //     try {
-    //         const response = await axios.get(`https://react-bc22.firebaseio.com/tasks.json`);
-    //         const tasks = [];
-    //         if (response.data) {
-    //             const keys = Object.keys(response.data);
-    //             for (const key of keys) {
-    //                 tasks.push({ id: key, ...response.data[key] })
-    //             }
-    //         }
-    //         if (!isSimilar(tasks, this.state.tasks)) {
-    //             return true
-    //         } else return false
-    //     } catch (error) {
-    //         throw new Error(error)
-    //     }
-    // }
-
     async componentDidUpdate(prevProps, prevState) {
-        console.log("componentDidUpdate");
-        localStorage.setItem('tasks', JSON.stringify(this.state.tasks))
+        localStorage.setItem('tasks', JSON.stringify(this.state.tasks));
     }
 
-    updateData = () => {
-        axios.get(`https://react-bc22.firebaseio.com/tasks.json`)
-            .then(response => {
-                const tasks = [];
-                if (response.data) {
-                    const keys = Object.keys(response.data);
-                    for (const key of keys) {
-                        tasks.push({ id: key, ...response.data[key] })
-                    }
-                    return tasks
-                } else return tasks
-            })
-            .then(tasks => this.setState({ tasks }))
-            .catch(error => console.log('error', error))
+    // updateData = () => {
+    //     axios.get(`https://react-bc22.firebaseio.com/tasks.json`)
+    //         .then(response => {
+    //             const tasks = [];
+    //             if (response.data) {
+    //                 const keys = Object.keys(response.data);
+    //                 for (const key of keys) {
+    //                     tasks.push({ id: key, ...response.data[key] })
+    //                 }
+    //                 return tasks
+    //             } else return tasks
+    //         })
+    //         .then(tasks => this.setState({ tasks }))
+    //         .catch(error => console.log('error', error))
+    // }
+
+
+
+    addTask = async (task) => {
+        const id = await API.createTask(task);
+        this.setState(prevState => ({
+            tasks: [...prevState.tasks, { id, ...task }]
+        }))
     }
 
+    checkStatus = async (e) => {
+        const { name } = e.target;
+        const id = e.target.closest('[data-id]').dataset.id;
+        const { tasks } = this.state;
+        const task = tasks.find(task => task.id === id)
+        const result = await API.updateTask(id, { ...task, status: name });
+        result
+            ? this.setState({ tasks: [...tasks.map(task => (task.id === id) ? { ...task, status: name } : task)] })
+            : console.log("Something went wrong!!!")
+    }
 
+    checkImportant = async (e) => {
+        const id = e.target.closest('[data-id]').dataset.id;
+        const { tasks } = this.state;
+        const task = tasks.find(task => task.id === id)
+        const result = await API.updateTask(id, { ...task, important: !task.important });
+        result
+            ? this.setState({ tasks: [...tasks.map(task => (task.id === id) ? { ...task, important: !task.important } : task)] })
+            : console.log("Something went wrong!!!")
+    }
 
-    addTask = (task) => {
-        axios.post(`https://react-bc22.firebaseio.com/tasks.json`, task)
-            .then(res => this.setState(prevState => ({
-                tasks: [...prevState.tasks, { id: res.data.name, ...task }]
-            })))
-            .catch(error => console.log(error));
+    editTask = async (e, newTaskName) => {
+        const id = e.target.closest('[data-id]').dataset.id;
+        const { tasks } = this.state;
+        const task = tasks.find(task => task.id === id)
+        const result = await API.updateTask(id, { ...task, task: newTaskName });
+        result
+            ? this.setState({ tasks: [...tasks.map(task => (task.id === id) ? { ...task, task: newTaskName } : task)] })
+            : console.log("Something went wrong!!!")
+    }
+
+    deleteTask = async (e) => {
+        const id = e.target.closest('[data-id]').dataset.id;
+        const result = await API.deleteTask(id);
+        result
+            ? this.setState(prevState => ({ tasks: [...prevState.tasks.filter(task => task.id !== id)] }))
+            : console.log("Something went wrong!!!")
     }
 
     render() {
@@ -131,14 +120,95 @@ class Task extends Component {
                 <TaskForm addTask={this.addTask} />
                 {isLoading
                     ? <h2>...loading</h2>
-                    : <TaskList tasks={tasks} />}
-                <button onClick={this.updateData} type="button">UpdateData</button>
+                    : <TaskList editTask={this.editTask} deleteTask={this.deleteTask} tasks={tasks} checkStatus={this.checkStatus} checkImportant={this.checkImportant} />}
+                {/* <button onClick={this.updateData} type="button">UpdateData</button> */}
             </>
         );
     }
 }
 
 export default Task;
+
+
+
+
+// const getImages = (searchValue, pageNumber = 1) => {
+//     return axios.get(`https://gdayjhd,jns?page=${pageNumber}&${searchValue}&perPage=12`)
+// }
+
+// const searchImages = async () => {
+//     const result = await getImages("cat");
+//     this.setState({ images: [...result], pageNumber: 2})
+// }
+
+// const loadMore = async () => {
+//     const result = getImages("cat", pageNumber);
+//     this.setState(prevState => ({ images: [...prevState.images, ...result], pageNumber: prevState.pageNumber + 1 }))
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// console.log("componentDidMount")
+// this.setState({ isLoading: true });
+// axios.get(`https://react-bc22.firebaseio.com/tasks.json`)
+//     .then(response => {
+//         const tasks = [];
+//         if (response.data) {
+//             const keys = Object.keys(response.data);
+//             for (const key of keys) {
+//                 tasks.push({ id: key, ...response.data[key] })
+//             }
+//             return tasks
+//         } else return tasks
+//     })
+//     .then(tasks => {
+//         this.setState({ tasks });
+//         localStorage.setItem("tasks", JSON.stringify(tasks));
+//     })
+//     .catch(error => console.log('error', error))
+//     .finally(() => this.setState({ isLoading: false }))
+// }
+
+
+
+// async shouldComponentUpdate(nextProps, nextState) {
+//     try {
+//         const response = await axios.get(`https://react-bc22.firebaseio.com/tasks.json`);
+//         const tasks = [];
+//         if (response.data) {
+//             const keys = Object.keys(response.data);
+//             for (const key of keys) {
+//                 tasks.push({ id: key, ...response.data[key] })
+//             }
+//         }
+//         if (!isSimilar(tasks, this.state.tasks)) {
+//             return true
+//         } else return false
+//     } catch (error) {
+//         throw new Error(error)
+//     }
+// }
+
+
+
+
+
+
+
 
 // const user = {
 //     name: "Alex"
@@ -163,3 +233,15 @@ export default Task;
 // }
 
 
+
+
+
+// function getData() {
+//     return function () {
+//         return function () {
+
+//         }
+//     }
+// }
+
+// const getData = () => () => 

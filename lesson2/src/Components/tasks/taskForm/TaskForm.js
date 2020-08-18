@@ -41,8 +41,8 @@ class TaskForm extends Component {
             <form onSubmit={this.addTask} className={css.form}>
                 <label htmlFor="task" className={css.formLabel}>Task name: </label>
                 <input className={css.formInput} type="text" value={task} name="task" id="task" onChange={this.handleChange} />
-                <button type="submit" className={css.formButton}>Add task</button>
-                <button type="button" className={css.formButton} onClick={this.checkImportant}>{!important ? "simple" : "important"}</button>
+                <button type="submit" className="formButton">Add task</button>
+                <button type="button" className="formButton" onClick={this.checkImportant}>{!important ? "simple" : "important"}</button>
             </form>
         );
     }

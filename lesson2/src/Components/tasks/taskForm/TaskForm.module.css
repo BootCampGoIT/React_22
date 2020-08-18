@@ -27,7 +27,8 @@
 
 }
 
-.formButton {
+
+/* .formButton {
     font-weight: 700;
     margin-right: 5px;
     height: 20px;
@@ -38,8 +39,7 @@
     color: white;
     text-transform: uppercase;
     outline: none;
-
-}
+} */
 
 .checkBoxWrapper {
     display: flex;

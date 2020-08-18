@@ -1,6 +1,33 @@
 @value font-stack: Roboto, Arial, sans-serif;
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  list-style: none;
+}
 
+:global(.formButton) {
+  font-weight: 700;
+  margin-right: 5px;
+  height: 20px;
+  width: 100px;
+  border: none;
+  background-color: cornflowerblue;
+  border-radius: 5px;
+  color: white;
+  text-transform: uppercase;
+  outline: none;
+}
 
-:global(.gsdhghs) {
-    color: #2196f3;
-  }
+:global(.formButtonDisabled) {
+  font-weight: 700;
+  margin-right: 5px;
+  height: 20px;
+  width: 100px;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  text-transform: uppercase;
+  outline: none;
+  background-color: red;
+}
