@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import auth from '../../../services/auth';
 
-
-class AuthForm extends Component {
+class RegistrationForm extends Component {
     state = {
         email: '',
         password: '',
@@ -19,21 +19,17 @@ class AuthForm extends Component {
         e.preventDefault();
         const { email, password } = this.state;
 
-
-        axios.post(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyA3EpGxauQXVftQbHutQd2bntOzY9HMEJ0`, {email, password,})
-        .then(res => localStorage.setItem('user', JSON.stringify(res.data.idToken)))
-        .then(()=>{
-            this.setState({email:"", password:""})
-        })
-
+        auth.signUp({ email, password })
+            .then(res => localStorage.setItem('user', JSON.stringify({ token: res.data.idToken, localId: res.data.localId })))
+            .then(() => {
+                this.setState({ email: "", password: "" })
+            })
     }
 
+
     render() {
-
         const { email, password } = this.state;
-
         return (
-
             <form onSubmit={this.handleSubmit}>
                 <label>
                     Email: <input type="text" value={email} name="email" onChange={this.handleChange} />
@@ -41,12 +37,11 @@ class AuthForm extends Component {
                 <label>
                     Password: <input type="text" value={password} name="password" onChange={this.handleChange} />
                 </label>
-
-                <button type="submit">SignIn</button>
+                <button type="submit">SignUp</button>
             </form>
 
         );
     }
 }
 
-export default AuthForm;
+export default RegistrationForm;

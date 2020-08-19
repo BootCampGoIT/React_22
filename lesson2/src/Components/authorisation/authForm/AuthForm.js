@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import auth from '../../../services/auth';
 
 
-class RegistrationForm extends Component {
+class AuthForm extends Component {
     state = {
         email: '',
         password: '',
@@ -19,14 +20,14 @@ class RegistrationForm extends Component {
         e.preventDefault();
         const { email, password } = this.state;
 
-        axios.post(`https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyA3EpGxauQXVftQbHutQd2bntOzY9HMEJ0`,{email,password})
-        .then(res=>localStorage.setItem('user',JSON.stringify(res.data.idToken)))
-        .then(()=>{
-            this.setState({email:"", password:""})
-        })
-    
-    }
 
+        auth.signIn({ email, password })
+            .then(res => localStorage.setItem('user', JSON.stringify({ token: res.data.idToken, localId: res.data.localId })))
+            .then(() => {
+                this.setState({ email: "", password: "" })
+            })
+
+    }
 
     render() {
 
@@ -42,11 +43,11 @@ class RegistrationForm extends Component {
                     Password: <input type="text" value={password} name="password" onChange={this.handleChange} />
                 </label>
 
-                <button type="submit">SignUp</button>
+                <button type="submit">SignIn</button>
             </form>
 
         );
     }
 }
 
-export default RegistrationForm;
+export default AuthForm;

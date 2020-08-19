@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import List from './list/List';
 import ProductForm from './productForm/ProductForm';
-import HomeWork from '../homeWork/HomeWork';
 import Filter from './filter/Filter';
 
 class Products extends Component {
@@ -33,17 +32,9 @@ class Products extends Component {
         const { products, filter } = this.state;
         return (
             <>
-                {/* <ProductForm addProduct={this.addProduct} />
-                <Filter getFilterValue={this.getFilterValue} value={filter} /> */}
-                {/* {
-                    filter
-                    ? <List products={products.filter(product => product.title.toLowerCase().includes(this.state.filter.toLowerCase()))} addToCart={this.addToCart} />
-                    : <List products={products} addToCart={this.addToCart} />
-                } */}
-                {/* <List products={this.getFilteredData()} addToCart={this.addToCart} /> */}
-
-                {/* <HomeWork /> */}
-        
+                <ProductForm addProduct={this.addProduct} />
+                <Filter getFilterValue={this.getFilterValue} value={filter} /> 
+                <List products={this.getFilteredData()} addToCart={this.addToCart} />
             </>
         );
     }
