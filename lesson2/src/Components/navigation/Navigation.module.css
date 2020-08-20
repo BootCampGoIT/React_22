@@ -1,0 +1,21 @@
+.navigation {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  list-style: none;
+}
+
+.navigationItem {
+  margin: 10px;
+  text-transform: uppercase;
+}
+
+.navigationItemLink {
+  text-decoration: none;
+  color: black;
+}
+.navigationItemLinkActive {
+  text-decoration: none;
+  color: blueviolet;
+  font-weight: 800;
+}

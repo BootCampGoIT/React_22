@@ -1,14 +1,10 @@
-import React, { Component } from 'react'
+import React from 'react'
 import UserListItem from './userListItem/UserListItem'
 
 const UsersList = ({ users, editUser }) => {
-
-    
-
     return (
-
         <ul>
-            {users.map(user => <UserListItem key={user.id} {...user} editUser ={editUser}/>)}
+            {users.map(user => <UserListItem key={user.id} {...user} editUser={editUser} />)}
         </ul>
 
     )

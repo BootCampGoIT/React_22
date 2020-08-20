@@ -31,6 +31,7 @@ class RegistrationForm extends Component {
         const { email, password } = this.state;
         return (
             <form onSubmit={this.handleSubmit}>
+                {console.log('this.props', this.props)}
                 <label>
                     Email: <input type="text" value={email} name="email" onChange={this.handleChange} />
                 </label>

@@ -65,6 +65,18 @@ class Task extends Component {
     //         .catch(error => console.log('error', error))
     // }
 
+    changePath = () => {
+        this.props.history.push({
+
+            pathname: '/signin',
+            // search: '?sortby=latest',
+            // hash: '#comments',
+            state: {
+                from: this.props.location.pathname
+            }
+        })
+    }
+
 
 
     addTask = async (task) => {
@@ -115,13 +127,15 @@ class Task extends Component {
 
     render() {
         const { tasks, isLoading } = this.state
+        console.log('this.props TAsks', this.props)
         return (
             <>
                 <TaskForm addTask={this.addTask} />
                 {isLoading
                     ? <h2>...loading</h2>
                     : <TaskList editTask={this.editTask} deleteTask={this.deleteTask} tasks={tasks} checkStatus={this.checkStatus} checkImportant={this.checkImportant} />}
-                {/* <button onClick={this.updateData} type="button">UpdateData</button> */}
+
+                <button onClick={this.changePath} type="button">Go home</button>
             </>
         );
     }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+
 import auth from '../../../services/auth';
 
 
@@ -36,6 +36,7 @@ class AuthForm extends Component {
         return (
 
             <form onSubmit={this.handleSubmit}>
+                {console.log('this.props SignIn', this.props)}
                 <label>
                     Email: <input type="text" value={email} name="email" onChange={this.handleChange} />
                 </label>

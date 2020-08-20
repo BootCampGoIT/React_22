@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import { withRouter } from "react-router-dom"
 
 class ProductForm extends Component {
     state = {
@@ -21,20 +22,31 @@ class ProductForm extends Component {
     }
 
     render() {
-        const {title, price} = this.state;
+        const { title, price } = this.state;
+        console.log('this.props FORM', this.props)
         return (
-            <form onSubmit={this.handleSubmit}>
-                <label>
-                    Title:
-                    <input type="text" name="title" onChange={this.handleChange} value={title}/>
-                </label>
-                <label>
-                    Price:
-                    <input type="text" name="price" onChange={this.handleChange} value={price}/>
-                </label>
-                <button type="submit">Add product</button>
-            </form>
+            <>
+                <form onSubmit={this.handleSubmit}>
+                    <label>
+                        Title:
+                    <input type="text" name="title" onChange={this.handleChange} value={title} />
+                    </label>
+                    <label>
+                        Price:
+                    <input type="text" name="price" onChange={this.handleChange} value={price} />
+                    </label>
+                    <button type="submit">Add product</button>
+                </form>
+                <button type="button" onClick={() => {
+                    this.props.history.push({
+                        pathname: '/tasks',
+                        state: {
+                            from: `${this.props.location.pathname}`
+                        }
+                    })
+                }}>Go =</button>
+            </>
         );
     }
 }
-export default ProductForm;
+export default withRouter(ProductForm);

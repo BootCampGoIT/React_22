@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { NavLink, Switch, Route } from 'react-router-dom'
 import List from './list/List';
 import ProductForm from './productForm/ProductForm';
 import Filter from './filter/Filter';
@@ -30,11 +31,22 @@ class Products extends Component {
 
     render() {
         const { products, filter } = this.state;
+        console.log('props PRoducts', this.props)
         return (
             <>
-                <ProductForm addProduct={this.addProduct} />
-                <Filter getFilterValue={this.getFilterValue} value={filter} /> 
-                <List products={this.getFilteredData()} addToCart={this.addToCart} />
+                <div className="navigation">
+                    <NavLink to={`${this.props.match.url}/create`}>Create new product</NavLink>
+                    <NavLink to={`${this.props.match.url}/filter`}>Search product by name</NavLink>
+                </div>
+                <div>
+                    <Switch>
+                        <Route path={`${this.props.match.url}/create`} render={() => <ProductForm addProduct={this.addProduct} />} />
+                        <Route path={`${this.props.match.url}/filter`} render={() => <Filter getFilterValue={this.getFilterValue} value={filter} />} />
+                    </Switch>
+                </div>
+                <div>
+                    <List products={this.getFilteredData()} addToCart={this.addToCart} />
+                </div>
             </>
         );
     }
