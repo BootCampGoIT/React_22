@@ -1,0 +1,20 @@
+.navigation{
+    display: flex;
+    flex-direction: column;
+}
+
+.navigationItem{
+    text-decoration: none;
+    text-transform: uppercase;
+    color: black;
+}
+
+.navigationItemActive{
+    color: rgb(255, 0, 98);
+}
+
+.wrapper{
+    display: flex;
+    
+}
+

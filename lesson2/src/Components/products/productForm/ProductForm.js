@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { v4 as uuidv4 } from 'uuid';
 import { withRouter } from "react-router-dom"
+import products from '../../../services/products';
 
 class ProductForm extends Component {
     state = {
         title: '',
         price: '',
+        category: 'other',
     }
 
     handleChange = (e) => {
@@ -16,13 +17,15 @@ class ProductForm extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        const { title, price } = this.state;
-        this.props.addProduct({ id: uuidv4(), title, price, image: 'https://33q47o1cmnk34cvwth15pbvt120l-wpengine.netdna-ssl.com/wp-content/uploads/raw-milk-1-e1563894986431.jpg' })
-        this.setState({ title: '', price: '' })
+        const { title, price, category } = this.state;
+        products.addProduct({...this.state}).then(id =>  this.props.addProduct({id, ...this.state}))
+        this.setState({ title: '', price: '', category:''})
+
     }
 
+
     render() {
-        const { title, price } = this.state;
+        const { title, price, category } = this.state;
         console.log('this.props FORM', this.props)
         return (
             <>
@@ -31,10 +34,18 @@ class ProductForm extends Component {
                         Title:
                     <input type="text" name="title" onChange={this.handleChange} value={title} />
                     </label>
+                    <select name="category" value={category} onChange={this.handleChange}>
+                        <option defaultValue="other">Other</option>
+                        <option value="food" >Food</option>
+                        <option value="tools">Tools</option>
+                        <option value="toys">Toys</option>
+                        <option value="drink">Drinks</option>
+                    </select>
                     <label>
                         Price:
                     <input type="text" name="price" onChange={this.handleChange} value={price} />
                     </label>
+
                     <button type="submit">Add product</button>
                 </form>
                 <button type="button" onClick={() => {
