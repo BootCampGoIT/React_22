@@ -1,35 +1,35 @@
 import React, { Component } from 'react'
 import TaskForm from './taskForm/TaskForm';
-import axios from 'axios';
 import TaskList from './taskList/TaskList';
 import API from '../../services/api';
+import HOC from '../HOC/HOC';
 
-const isSimilar = (array1, array2) => {
-    const diffResult = [];
-    for (let i = 0; i < array1.length; i += 1) {
-        const user1 = array1[i];
-        const user2 = array2[i];
-        const keys = Object.keys(user1);
-        const keys2 = Object.keys(user2);
-        for (const key of keys2) {
-            if (key in array1[i]) {
-                diffResult.push(true)
-            } else diffResult.push(false)
-        }
-        for (const key of keys) {
-            if (key in array2[i]) {
-                diffResult.push(true)
-            } else diffResult.push(false)
+// const isSimilar = (array1, array2) => {
+//     const diffResult = [];
+//     for (let i = 0; i < array1.length; i += 1) {
+//         const user1 = array1[i];
+//         const user2 = array2[i];
+//         const keys = Object.keys(user1);
+//         const keys2 = Object.keys(user2);
+//         for (const key of keys2) {
+//             if (key in array1[i]) {
+//                 diffResult.push(true)
+//             } else diffResult.push(false)
+//         }
+//         for (const key of keys) {
+//             if (key in array2[i]) {
+//                 diffResult.push(true)
+//             } else diffResult.push(false)
 
-            if (user1[key] === user2[key]) {
-                diffResult.push(true)
-            } else diffResult.push(false)
-        }
-    }
-    if (diffResult.includes(false)) {
-        return false
-    } else return true
-}
+//             if (user1[key] === user2[key]) {
+//                 diffResult.push(true)
+//             } else diffResult.push(false)
+//         }
+//     }
+//     if (diffResult.includes(false)) {
+//         return false
+//     } else return true
+// }
 
 class Task extends Component {
     state = {
@@ -127,10 +127,11 @@ class Task extends Component {
 
     render() {
         const { tasks, isLoading } = this.state
-        console.log('this.props TAsks', this.props)
         return (
             <>
-                <TaskForm addTask={this.addTask} />
+
+                <TaskForm addTask={this.addTask} title="My props"/>
+
                 {isLoading
                     ? <h2>...loading</h2>
                     : <TaskList editTask={this.editTask} deleteTask={this.deleteTask} tasks={tasks} checkStatus={this.checkStatus} checkImportant={this.checkImportant} />}
@@ -146,19 +147,6 @@ export default Task;
 
 
 
-// const getImages = (searchValue, pageNumber = 1) => {
-//     return axios.get(`https://gdayjhd,jns?page=${pageNumber}&${searchValue}&perPage=12`)
-// }
-
-// const searchImages = async () => {
-//     const result = await getImages("cat");
-//     this.setState({ images: [...result], pageNumber: 2})
-// }
-
-// const loadMore = async () => {
-//     const result = getImages("cat", pageNumber);
-//     this.setState(prevState => ({ images: [...prevState.images, ...result], pageNumber: prevState.pageNumber + 1 }))
-// }
 
 
 
@@ -172,90 +160,3 @@ export default Task;
 
 
 
-
-
-
-
-// console.log("componentDidMount")
-// this.setState({ isLoading: true });
-// axios.get(`https://react-bc22.firebaseio.com/tasks.json`)
-//     .then(response => {
-//         const tasks = [];
-//         if (response.data) {
-//             const keys = Object.keys(response.data);
-//             for (const key of keys) {
-//                 tasks.push({ id: key, ...response.data[key] })
-//             }
-//             return tasks
-//         } else return tasks
-//     })
-//     .then(tasks => {
-//         this.setState({ tasks });
-//         localStorage.setItem("tasks", JSON.stringify(tasks));
-//     })
-//     .catch(error => console.log('error', error))
-//     .finally(() => this.setState({ isLoading: false }))
-// }
-
-
-
-// async shouldComponentUpdate(nextProps, nextState) {
-//     try {
-//         const response = await axios.get(`https://react-bc22.firebaseio.com/tasks.json`);
-//         const tasks = [];
-//         if (response.data) {
-//             const keys = Object.keys(response.data);
-//             for (const key of keys) {
-//                 tasks.push({ id: key, ...response.data[key] })
-//             }
-//         }
-//         if (!isSimilar(tasks, this.state.tasks)) {
-//             return true
-//         } else return false
-//     } catch (error) {
-//         throw new Error(error)
-//     }
-// }
-
-
-
-
-
-
-
-
-// const user = {
-//     name: "Alex"
-// }
-// const user1 = user
-// console.log(user === user1)
-
-
-
-// const array1 = [{ name: "Alex", status: "student" }];
-// const array2 = [{ name: "Alex", status: "student" }, { name: "Nikita", status: "student" }];
-
-// const result = [];
-
-// if (array1.length > array2.length) {
-//     array2.reduce((acc, element) => {
-
-
-
-//         return acc
-//     }, [])
-// }
-
-
-
-
-
-// function getData() {
-//     return function () {
-//         return function () {
-
-//         }
-//     }
-// }
-
-// const getData = () => () => 

@@ -17,7 +17,7 @@ class ProductForm extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        const { title, price, category } = this.state;
+
         products.addProduct({...this.state}).then(id =>  this.props.addProduct({id, ...this.state}))
         this.setState({ title: '', price: '', category:''})
 

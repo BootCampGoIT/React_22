@@ -21,7 +21,7 @@ class Auth extends Component {
                 <button type='button' onClick={this.openForm}>Sign Up</button> */}
 
                 <div>{this.state.signIn ? <RegistrationForm /> : <AuthForm />}</div>
-                <a href='#' onClick={this.openForm} >{this.state.signIn ? 'Sign IN' : 'Sign UP'}</a>
+                <p onClick={this.openForm} >{this.state.signIn ? 'Sign IN' : 'Sign UP'}</p>
             </>
         )
     }

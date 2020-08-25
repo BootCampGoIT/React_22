@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import auth from '../../../services/auth';
 
 class RegistrationForm extends Component {

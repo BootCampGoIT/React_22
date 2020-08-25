@@ -1,5 +1,4 @@
 import axios from 'axios'
-import { object } from 'prop-types'
 
 export default {
     async addProduct(product) {
@@ -33,7 +32,6 @@ export default {
     },
 
     async getProductsByCategory(category) {
-        console.log("category", category)
         try {
             const response = await axios.get(`https://react-bc22.firebaseio.com/products/${category}.json`)
             console.log("response.data", response.data)
