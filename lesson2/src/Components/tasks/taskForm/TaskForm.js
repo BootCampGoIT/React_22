@@ -13,10 +13,13 @@ const initialState = {
 class TaskForm extends Component {
     state = { ...initialState }
 
+    componentDidMount() {
+        window.addEventListener("keydown", this.props.closeModal)
+    }
 
-    // componentDidUpdate(prevProps, prevState) {
-    //     console.log("FormUpdated")
-    // }   
+    componentWillUnmount() {
+        window.removeEventListener("keydown", this.props.closeModal)
+    }
 
     checkImportant = (e) => {
         this.setState(prevState => ({
@@ -28,7 +31,7 @@ class TaskForm extends Component {
         e.preventDefault();
         this.props.addTask({ ...this.state })
         this.setState({ ...initialState })
-        this.props.toggleModal();
+        this.props.closeModal();
     }
 
     handleChange = (e) => {

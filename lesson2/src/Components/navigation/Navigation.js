@@ -1,9 +1,11 @@
 import React, { Suspense, lazy } from 'react';
 import { NavLink } from 'react-router-dom';
 import css from './Navigation.module.css';
+import withLog from '../HOC/HOC';
 
 
 const Navigation = (props) => {
+
     return (
         <nav>
 
@@ -54,4 +56,9 @@ const Navigation = (props) => {
     );
 }
 
-export default Navigation;
+
+
+
+
+export default withLog(Navigation);
+

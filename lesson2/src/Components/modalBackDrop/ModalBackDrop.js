@@ -3,35 +3,25 @@
 import React, { Component } from 'react';
 import css from './ModalBackDrop.module.css';
 
-
-
-
 const WrappedComponent = (MyComponent) => {
     return class ModalBackDrop extends Component {
         state = {
-            isOpen: false
-        }
-        componentDidMount() {
-            window.addEventListener("keydown", this.closeModal)
-        }
-        componentWillUnmount() {
-            window.removeEventListener("keydown", this.closeModal)
+            isOpen: false,
+            count: []
         }
 
 
-        closeModal = (e) => {
-            if (e.code === "Escape") {
-                this.toggleModal();
-            }
-        }
 
+
+
+        closeModal = () => {
+            this.setState(prevState => ({
+                isOpen: !prevState.isOpen
+            }));
+        }
 
         toggleModal = (e) => {
-            if (!e.target.closest('[data-modal="modal"]')) {
-                this.setState(prevState => ({
-                    isOpen: !prevState.isOpen
-                }))
-            } else return
+            ((e.key === "Escape") || !e.target.closest('[data-modal="modal"]')) && this.closeModal()
         }
 
 
@@ -40,11 +30,10 @@ const WrappedComponent = (MyComponent) => {
             return (
                 <>
                     <button onClick={this.toggleModal}>Create new task</button>
-
                     {isOpen &&
                         <div className={css.parent} onClick={this.toggleModal} >
                             <div className={css.modal} data-modal="modal">
-                                <MyComponent {...this.props} toggleModal={this.toggleModal} />
+                                <MyComponent {...this.props} closeModal={this.closeModal} toggleModal={this.toggleModal} />
                             </div>
                         </div>}
                 </>

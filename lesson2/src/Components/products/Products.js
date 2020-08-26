@@ -6,6 +6,9 @@ import Filter from './filter/Filter';
 import products from '../../services/products';
 import styles from './Products.module.css'
 import CategoriesList from './categoriesList/CategoriesList';
+import Toggler from '../HOC/Toggler';
+import { Consumer } from '../..';
+import TaskList from '../tasks/taskList/TaskList';
 
 
 class Products extends Component {
@@ -87,6 +90,26 @@ class Products extends Component {
                 <div>
 
                 </div>
+                <Toggler>
+                    {(props) => {
+                        const { isOpen, onToggle } = props;
+                        return (
+                            <>
+                                <button type="button" onClick={onToggle}>
+                                    {isOpen ? 'Hide' : 'Show'}
+                                </button>
+                                {isOpen && <p>Hello</p>}
+                            </>
+                        )
+                    }
+                    }
+                    </Toggler>
+                <div>
+                    <Consumer>
+                        {(store) => store.isVisible && <TaskList tasks={store.tasks}/>}
+                    </Consumer>
+                </div>
+
             </div>
         );
     }

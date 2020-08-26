@@ -1,44 +1,30 @@
 import React, { Component } from 'react'
 
-const HOC = (MyComponent) => {
-    return class NewTaskMaker extends Component {
-        state = {
-            isVisible: false
-        }
-
-        onHandleClick = () => {
-            this.setState(prevState => ({
-                isVisible: !prevState.isVisible
-            }))
-
+const withLog = WrappedComponent => {
+    return class WithLog extends Component {
+        componentDidMount() {
+            console.group(`WithLog ouput ${WrappedComponent.name}`);
+            console.log('props_____________', this.props)
+            console.groupEnd();
         }
 
         render() {
-            const { isVisible } = this.state;
-            return (
-                <>
-                    {isVisible && <MyComponent {...this.props} />}
-                    <button type="button" onClick={this.onHandleClick}>Add new task</button>
-                </>
-            )
+            return <WrappedComponent {...this.props} />;
         }
     };
-}
+};
+export default withLog;
 
-export default HOC;
 
 
-// const HOC = ({ children }) => {
-//     return (
-//         <>
-//             {console.log('children', children)}
-//             {children}
-//         </>
-//     );
+// function get(n) {
+//     console.log(n)
+//     return function (i) {
+//         console.log(i)
+//         return function () {
+//             console.log(n)
+//         }
+//     }
 // }
-
-// export default HOC;
-
-
-
-
+// const data = get(5)(10);
+// data()

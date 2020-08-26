@@ -1,5 +1,7 @@
 import React from 'react';
 import styles from './ListItem.module.css';
+import withLog from '../../../HOC/HOC';
+import { withRouter } from 'react-router-dom';
 
 const ListItem = ({ id, title, image, price }) => {
 
@@ -13,4 +15,4 @@ const ListItem = ({ id, title, image, price }) => {
     );
 }
 
-export default ListItem;
+export default withRouter(withLog(ListItem));
