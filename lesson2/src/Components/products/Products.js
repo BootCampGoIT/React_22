@@ -7,7 +7,6 @@ import products from '../../services/products';
 import styles from './Products.module.css'
 import CategoriesList from './categoriesList/CategoriesList';
 import Toggler from '../HOC/Toggler';
-import { Consumer } from '../..';
 import TaskList from '../tasks/taskList/TaskList';
 
 
@@ -103,11 +102,8 @@ class Products extends Component {
                         )
                     }
                     }
-                    </Toggler>
+                </Toggler>
                 <div>
-                    <Consumer>
-                        {(store) => store.isVisible && <TaskList tasks={store.tasks}/>}
-                    </Consumer>
                 </div>
 
             </div>

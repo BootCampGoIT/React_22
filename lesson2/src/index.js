@@ -5,30 +5,23 @@ import App from './Components/App';
 import './index.module.css';
 
 
-
-
-export const {Provider, Consumer} = createContext("Theme");
-const store = {
-  tasks: [{id: "hfukhjshkvf", task: 'bdhbcjs,dc'}],
-  users: [],
-  filter: '',
-  isVisible: true,
-  getContact(contact){
-    this.contacts = [...this.contacts, contact] 
-  }
+export const store = {
+  tasks: [],
+  isLoading: false,
+  isOpen: true,
 }
 
+export const { Provider, Consumer } = createContext('text');
 
 
 ReactDOM.render(
-  <Provider value={store}>
+
     <BrowserRouter>
       <Route component={App} />
     </BrowserRouter>
-  </Provider>
   ,
   document.getElementById('root')
 );
 
-console.dir(window)
+
 

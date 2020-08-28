@@ -32,7 +32,9 @@ const App = (props) => {
                     <Route path="/signup" component={RegistrationForm} />
                     <Suspense fallback={<div>Loading...</div>}>
                         <Route path="/signin" component={AuthForm} />
+
                         <Route path="/task" component={Task} />
+
                         <Route path="/products" component={Products} />
                     </Suspense>
                 </Switch>

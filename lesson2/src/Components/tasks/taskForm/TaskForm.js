@@ -31,7 +31,7 @@ class TaskForm extends Component {
         e.preventDefault();
         this.props.addTask({ ...this.state })
         this.setState({ ...initialState })
-        this.props.closeModal();
+
     }
 
     handleChange = (e) => {
@@ -56,4 +56,4 @@ class TaskForm extends Component {
     }
 }
 
-export default WrappedComponent(TaskForm);
+export default TaskForm;

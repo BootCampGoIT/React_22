@@ -21,6 +21,7 @@ const WrappedComponent = (MyComponent) => {
         }
 
         toggleModal = (e) => {
+
             ((e.key === "Escape") || !e.target.closest('[data-modal="modal"]')) && this.closeModal()
         }
 

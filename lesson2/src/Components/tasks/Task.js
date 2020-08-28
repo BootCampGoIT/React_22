@@ -3,6 +3,9 @@ import TaskForm from './taskForm/TaskForm';
 import TaskList from './taskList/TaskList';
 import API from '../../services/api';
 import HOC from '../HOC/HOC';
+import TaskConsumerHoc from '../HOC/TaskConsumerHoc';
+import { CSSTransition } from 'react-transition-group';
+import styles from './Task.module.css';
 
 // const isSimilar = (array1, array2) => {
 //     const diffResult = [];
@@ -31,16 +34,36 @@ import HOC from '../HOC/HOC';
 //     } else return true
 // }
 
+
+const duration = 300;
+
+const defaultStyle = {
+    transition: `opacity ${duration}ms ease-in-out`,
+    opacity: 0,
+}
+
+const transitionStyles = {
+    entering: { opacity: 1 },
+    entered: { opacity: 1 },
+    exiting: { opacity: 0 },
+    exited: { opacity: 0 },
+};
+
+
 class Task extends Component {
     state = {
         tasks: [],
         isLoading: false,
+        taskLoaded: false
     }
 
     async componentDidMount() {
         this.setState({ isLoading: true });
         const tasks = await API.getTasks();
-        this.setState({ tasks: tasks ? tasks : [], isLoading: false })
+        this.setState({ tasks: tasks ? tasks : [], isLoading: false, taskLoaded: true })
+
+        // this.props.tasks = [...tasks]
+
 
         // const localTasks = JSON.parse(localStorage.getItem("tasks"));
 
@@ -126,30 +149,27 @@ class Task extends Component {
     }
 
     render() {
-        const { tasks, isLoading } = this.state
+        const { tasks, isLoading, taskLoaded } = this.state
         return (
             <>
-
-                <TaskForm addTask={this.addTask} title="My props"/>
-
-                {isLoading
-                    ? <h2>...loading</h2>
-                    : <TaskList editTask={this.editTask} deleteTask={this.deleteTask} tasks={tasks} checkStatus={this.checkStatus} checkImportant={this.checkImportant} />}
-
+                <CSSTransition in={true} appear={true}  timeout={1000} classNames={styles} unmountOnExit mountOnEnter>
+                    {state => (
+                        <div>
+                            <TaskForm addTask={this.addTask} title="My props" />
+                            {isLoading
+                                ? <h2>...loading</h2>
+                                : <TaskList editTask={this.editTask} deleteTask={this.deleteTask} tasks={tasks} checkStatus={this.checkStatus} checkImportant={this.checkImportant} />}
+                        </div>
+                    )}
+                </CSSTransition>
                 <button onClick={this.changePath} type="button">Go home</button>
             </>
         );
     }
 }
 
-export default Task;
 
-
-
-
-
-
-
+export default TaskConsumerHoc(Task);
 
 
 
